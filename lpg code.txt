@@ -1,0 +1,35 @@
+#include <Servo.h>
+
+const int gasSensorPin = A5;
+const int buzzerPin = 8;
+const int servoPin = 9;
+const int gasThreshold = 400;
+
+Servo myServo;
+bool servoMoved = false;
+
+void setup()
+{
+pinMode(gasSensorPin, INPUT);
+pinMode(buzzerPin, OUTPUT);
+myServo.attach(servoPin);
+myServo.write(0);
+Serial.begin(9600);
+}
+
+void loop()
+{
+int gasLevel = analogRead(gasSensorPin);
+Serial.println(gasLevel);
+
+if (gasLevel > gasThreshold && !servoMoved)
+{
+digitalWrite(buzzerPin, HIGH);
+delay(2000);
+digitalWrite(buzzerPin, HIGH);
+
+myServo.write(150);
+servoMoved = true;
+}
+delay(00);
+}
